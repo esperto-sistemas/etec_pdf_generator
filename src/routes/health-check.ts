@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 
-export function check(_: FastifyRequest, reply: FastifyReply) {
+export function healthCheck(_: FastifyRequest, reply: FastifyReply) {
   try {
     return reply.status(200).send({
       message: 'Welcome to the PDF Generator API',
