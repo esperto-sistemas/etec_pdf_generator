@@ -8,7 +8,8 @@
     "sourceMap": true,
     "allowImportingTsExtensions": true,
     "types": ["node"], // Add types for Node.js and Jest
-    "moduleResolution": "node" // Ensure module resolution is set to node
+    "moduleResolution": "node", // Ensure module resolution is set to node
+    "baseUrl": "./src" // Set base URL for module resolution
   },
   "include": ["src/**/*.ts", "tests/**/*.ts", "api/**/*.ts", "requests/**/*.ts"], // Include source and test files
   "exclude": ["node_modules"] // Exclude node_modules

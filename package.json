@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=production tsx ./src/api/server-start.ts",
-    "dev": "cross-env NODE_ENV=development tsx ./src/api/server-start.ts",
+    "start": "cross-env NODE_ENV=production tsx ./src/server.ts",
+    "dev": "cross-env NODE_ENV=development tsx ./src/server.ts",
     "test": "node --test --loader tsx ./src/**/*.test.ts",
-    "generate-openapi": "tsx ./src/api/generateOpenApi.ts",
+    "generate-openapi": "tsx ./src/plugins/swagger/generateOpenApi.ts",
     "lint": "eslint --ext .ts ./src",
     "lint:fix": "eslint --ext .ts ./src --fix",
     "format": "prettier --write .",
@@ -23,6 +23,7 @@
     "@sinclair/typebox": "^0.33.22",
     "cross-env": "^7.0.3",
     "fastify": "^5.1.0",
+    "pdfkit": "^0.16.0",
     "tsx": "^4.19.2",
     "typescript": "^5.6.3"
   },

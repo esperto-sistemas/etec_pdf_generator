@@ -28,7 +28,7 @@ export async function buildServer() {
   })
 
   // Register routes
-  await server.register(import('./routes'))
+  await server.register(import('./routes/routes'))
 
   return server
 }

@@ -9,9 +9,9 @@ const routes: FastifyPluginAsync = async (fastify) => {
     '/',
     {
       schema: {
-        description: 'Welcome endpoint',
+        description: 'Root endpoint',
         response: {
-          200: Type.String(),
+          200: Type.Object({ message: Type.String(), timestamp: Type.Number() }),
           400: ErrorResponseSchema,
           500: ErrorResponseSchema,
         },
@@ -19,7 +19,10 @@ const routes: FastifyPluginAsync = async (fastify) => {
     },
     async (_, reply) => {
       try {
-        return 'Welcome to the PDF Generator API!'
+        return reply.status(200).send({
+          message: 'Welcome to the PDF Generator API',
+          timestamp: Date.now(),
+        })
       } catch {
         reply.status(500).send({
           statusCode: 500,

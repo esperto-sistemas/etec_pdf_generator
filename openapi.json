@@ -11,14 +11,26 @@
   "paths": {
     "/": {
       "get": {
-        "description": "Welcome endpoint",
+        "description": "Root endpoint",
         "responses": {
           "200": {
             "description": "Default Response",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "timestamp": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "message",
+                    "timestamp"
+                  ]
                 }
               }
             }
@@ -41,7 +53,11 @@
                       "type": "string"
                     }
                   },
-                  "required": ["statusCode", "error", "message"]
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "message"
+                  ]
                 }
               }
             }
@@ -64,7 +80,11 @@
                       "type": "string"
                     }
                   },
-                  "required": ["statusCode", "error", "message"]
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "message"
+                  ]
                 }
               }
             }
@@ -91,7 +111,10 @@
                     "type": "number"
                   }
                 },
-                "required": ["name", "age"]
+                "required": [
+                  "name",
+                  "age"
+                ]
               }
             }
           },
@@ -123,10 +146,17 @@
                           "type": "number"
                         }
                       },
-                      "required": ["name", "age", "timestamp"]
+                      "required": [
+                        "name",
+                        "age",
+                        "timestamp"
+                      ]
                     }
                   },
-                  "required": ["message", "data"]
+                  "required": [
+                    "message",
+                    "data"
+                  ]
                 }
               }
             }
@@ -149,7 +179,11 @@
                       "type": "string"
                     }
                   },
-                  "required": ["statusCode", "error", "message"]
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "message"
+                  ]
                 }
               }
             }
@@ -172,7 +206,11 @@
                       "type": "string"
                     }
                   },
-                  "required": ["statusCode", "error", "message"]
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "message"
+                  ]
                 }
               }
             }

@@ -1,8 +1,7 @@
-// one test here
-
 import { test } from 'node:test'
 import assert from 'assert'
-import { buildServer } from './server'
+
+import { buildServer } from './app'
 
 test('GET / returns welcome message', async () => {
   const server = await buildServer()
