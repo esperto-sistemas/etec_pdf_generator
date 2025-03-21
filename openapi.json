@@ -41,11 +41,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -68,11 +64,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -99,10 +91,7 @@
                     "type": "number"
                   }
                 },
-                "required": [
-                  "name",
-                  "age"
-                ]
+                "required": ["name", "age"]
               }
             }
           },
@@ -134,17 +123,10 @@
                           "type": "number"
                         }
                       },
-                      "required": [
-                        "name",
-                        "age",
-                        "timestamp"
-                      ]
+                      "required": ["name", "age", "timestamp"]
                     }
                   },
-                  "required": [
-                    "message",
-                    "data"
-                  ]
+                  "required": ["message", "data"]
                 }
               }
             }
@@ -167,11 +149,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -194,11 +172,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }

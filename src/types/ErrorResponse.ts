@@ -1,4 +1,4 @@
-import { Type, Static } from "@sinclair/typebox";
+import { Type, Static } from '@sinclair/typebox'
 
 export const ErrorResponseSchema = Type.Object(
   {
@@ -6,7 +6,7 @@ export const ErrorResponseSchema = Type.Object(
     error: Type.String(),
     message: Type.String(),
   },
-  { description: "Error response schema" }
-);
+  { description: 'Error response schema' },
+)
 
-export type ErrorResponse = Static<typeof ErrorResponseSchema>;
+export type ErrorResponse = Static<typeof ErrorResponseSchema>

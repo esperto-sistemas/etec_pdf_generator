@@ -1,4 +1,4 @@
-import { Type, Static } from "@sinclair/typebox";
+import { Type, Static } from '@sinclair/typebox'
 
 export const ExampleResponseSchema = Type.Object(
   {
@@ -9,7 +9,7 @@ export const ExampleResponseSchema = Type.Object(
       timestamp: Type.Number(),
     }),
   },
-  { description: "Example response schema" }
-);
+  { description: 'Example response schema' },
+)
 
-export type ExampleResponse = Static<typeof ExampleResponseSchema>;
+export type ExampleResponse = Static<typeof ExampleResponseSchema>

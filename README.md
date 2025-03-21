@@ -63,26 +63,26 @@ The containerized application will be available at `http://localhost:3000`.
 
 ```typescript
 // types/MyRequest.ts
-import { Type, Static } from "@sinclair/typebox";
+import { Type, Static } from '@sinclair/typebox'
 
 export const MyRequestSchema = Type.Object(
   {
     field: Type.String(),
   },
-  { description: "My request schema" }
-);
+  { description: 'My request schema' },
+)
 
-export type MyRequest = Static<typeof MyRequestSchema>;
+export type MyRequest = Static<typeof MyRequestSchema>
 ```
 
 2. Add your route in `api/routes.ts`:
 
 ```typescript
 fastify.post<{ Body: MyRequest; Reply: MyResponse }>(
-  "/my-endpoint",
+  '/my-endpoint',
   {
     schema: {
-      description: "My endpoint",
+      description: 'My endpoint',
       body: MyRequestSchema,
       response: {
         200: MyResponseSchema,
@@ -93,8 +93,8 @@ fastify.post<{ Body: MyRequest; Reply: MyResponse }>(
   },
   async (request, reply) => {
     // Your handler logic
-  }
-);
+  },
+)
 ```
 
 ## Testing
@@ -102,19 +102,19 @@ fastify.post<{ Body: MyRequest; Reply: MyResponse }>(
 The template includes a test setup using Node's built-in test runner. Tests are located in `*.test.ts` files.
 
 ```typescript
-import { test } from "node:test";
-import assert from "assert";
-import { buildServer } from "./server";
+import { test } from 'node:test'
+import assert from 'assert'
+import { buildServer } from './server'
 
-test("my test", async () => {
-  const server = await buildServer();
+test('my test', async () => {
+  const server = await buildServer()
   const response = await server.inject({
-    method: "POST",
-    url: "/my-endpoint",
-    payload: { field: "value" },
-  });
-  assert.strictEqual(response.statusCode, 200);
-});
+    method: 'POST',
+    url: '/my-endpoint',
+    payload: { field: 'value' },
+  })
+  assert.strictEqual(response.statusCode, 200)
+})
 ```
 
 ## API Documentation
