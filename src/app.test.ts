@@ -12,7 +12,9 @@ test('GET / returns welcome message', async () => {
   })
 
   assert.strictEqual(response.statusCode, 200)
-  assert.strictEqual(response.payload, 'Welcome to the PDF Generator API!')
+  const body = JSON.parse(response.payload)
+
+  assert.strictEqual(body.message, 'Welcome to the PDF Generator API')
 })
 
 test('POST /example returns correct response', async () => {

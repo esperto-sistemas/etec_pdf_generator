@@ -5,7 +5,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production tsx ./src/server.ts",
     "dev": "cross-env NODE_ENV=development tsx ./src/server.ts",
-    "test": "node --test --loader tsx ./src/**/*.test.ts",
+    "test": "node --test --import tsx ./src/**/*.test.ts",
     "generate-openapi": "tsx ./src/plugins/swagger/generateOpenApi.ts",
     "lint": "eslint --ext .ts ./src",
     "lint:fix": "eslint --ext .ts ./src --fix",
