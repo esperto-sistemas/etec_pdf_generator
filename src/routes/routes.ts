@@ -1,8 +1,11 @@
 import { FastifyInstance } from 'fastify'
-import { Type } from '@sinclair/typebox'
-import { ErrorResponseSchema } from '../types/ErrorResponse'
-import { healthCheck } from './health-check'
-import { generatePDF } from './generate-pdf'
+
+import { ErrorResponseSchema } from 'types/ErrorResponse'
+import { HealthCheckResponseSchema } from 'types/HealthCheckResponse'
+import { PdfResponseSchema } from 'types/PdfResponse'
+
+import { healthCheck } from './health-check/health-check'
+import { generatePDF } from './generate-pdf/generate-pdf'
 
 export async function routes(app: FastifyInstance) {
   app.get(
@@ -11,7 +14,7 @@ export async function routes(app: FastifyInstance) {
       schema: {
         description: 'Health check endpoint',
         response: {
-          200: Type.Object({ message: Type.String(), timestamp: Type.Number() }),
+          200: HealthCheckResponseSchema,
           400: ErrorResponseSchema,
           500: ErrorResponseSchema,
         },
@@ -26,7 +29,7 @@ export async function routes(app: FastifyInstance) {
       schema: {
         description: 'Generate PDF endpoint',
         response: {
-          200: Type.Object({ message: Type.String() }),
+          200: PdfResponseSchema,
           400: ErrorResponseSchema,
           500: ErrorResponseSchema,
         },
