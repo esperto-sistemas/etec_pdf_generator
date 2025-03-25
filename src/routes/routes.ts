@@ -28,6 +28,13 @@ export async function routes(app: FastifyInstance) {
     {
       schema: {
         description: 'Generate PDF endpoint',
+        body: {
+          type: 'object',
+          properties: {
+            reportType: { type: 'string', enum: ['visitReport', 'preventiveMaintenanceReport'] },
+          },
+          required: ['reportType'],
+        },
         response: {
           200: PdfResponseSchema,
           400: ErrorResponseSchema,
