@@ -2,12 +2,7 @@ import { FastifyReply } from 'fastify'
 
 import PDFKit from 'pdfkit'
 
-import {
-  renderEquipment,
-  renderExecutedActivities,
-  renderObservations,
-  renderSignatures,
-} from './sections'
+import { renderEquipment, renderExecutedActivities } from './sections'
 
 import { margin } from './constants'
 import { drawText, spaceBetweenSections } from './helpers'
@@ -15,8 +10,10 @@ import { VisitReport } from 'types/PdfBody'
 
 import { renderHeader } from './sections/header'
 import { renderClient } from './sections/client'
+import { renderSignatures } from './sections/signatures'
+import { renderObservations } from './sections/observations'
 
-export function visitReportPdf(reply: FastifyReply, body: VisitReport) {
+export async function visitReportPdf(reply: FastifyReply, body: VisitReport) {
   const doc = new PDFKit({ size: 'A4', margin })
   const currentY = doc.y
 
@@ -42,8 +39,6 @@ export function visitReportPdf(reply: FastifyReply, body: VisitReport) {
     cliente: body.cliente,
     nomeResponsavel: body.nomeResponsavel,
     responsavelSetor: body.responsavelSetor,
-    cpfCnpj: body.cpfCnpj,
-    telefone: body.telefone,
   })
 
   //Equipment
@@ -53,10 +48,15 @@ export function visitReportPdf(reply: FastifyReply, body: VisitReport) {
   renderExecutedActivities(doc, true)
 
   //Observations
-  renderObservations(doc)
+  if (body.observacoes) {
+    renderObservations(doc, { observacoes: body.observacoes })
+  }
 
   //Signatures
-  renderSignatures(doc, currentY)
+  renderSignatures(doc, currentY, {
+    cliente: body.cliente,
+    responsavel: body.responsavel,
+  })
 
   // Finish the PDF document
   doc.end()

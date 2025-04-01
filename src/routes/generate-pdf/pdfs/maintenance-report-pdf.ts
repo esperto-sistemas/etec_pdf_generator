@@ -2,22 +2,19 @@ import { FastifyReply } from 'fastify'
 
 import PDFKit from 'pdfkit'
 
-import {
-  renderAddons,
-  renderEquipment,
-  renderExecutedActivities,
-  renderMaterials,
-  renderObservations,
-  renderSignatures,
-} from './sections'
+import { renderEquipment, renderExecutedActivities } from './sections'
 
 import { margin } from './constants'
 import { MaintenanceReport } from 'types/PdfBody'
 
 import { renderHeader } from './sections/header'
 import { renderClient } from './sections/client'
+import { renderAddons } from './sections/addons'
+import { renderMaterials } from './sections/materials'
+import { renderSignatures } from './sections/signatures'
+import { renderObservations } from './sections/observations'
 
-export function maintenanceReportPdF(reply: FastifyReply, body: MaintenanceReport) {
+export async function maintenanceReportPdF(reply: FastifyReply, body: MaintenanceReport) {
   const doc = new PDFKit({ size: 'A4', margin })
   const currentY = doc.y
 
@@ -39,8 +36,6 @@ export function maintenanceReportPdF(reply: FastifyReply, body: MaintenanceRepor
     cliente: body.cliente,
     nomeResponsavel: body.nomeResponsavel,
     responsavelSetor: body.responsavelSetor,
-    cpfCnpj: body.cpfCnpj,
-    telefone: body.telefone,
   })
 
   //Equipment
@@ -53,16 +48,29 @@ export function maintenanceReportPdF(reply: FastifyReply, body: MaintenanceRepor
   doc.addPage()
 
   //Materials used
-  renderMaterials(doc, currentY)
+  if (body.materiais.length > 0) {
+    renderMaterials(doc, currentY, {
+      materiais: body.materiais,
+    })
+  }
 
   //Addons
-  renderAddons(doc)
+  renderAddons(doc, {
+    quantidadePedagios: body.quantidadePedagios,
+    quantidadeRefeicoes: body.quantidadeRefeicoes,
+    diasTrabalhados: body.diasTrabalhados,
+  })
 
   //Observations
-  renderObservations(doc)
+  if (body.observacoes) {
+    renderObservations(doc, { observacoes: body.observacoes })
+  }
 
   //Signatures
-  renderSignatures(doc, currentY)
+  await renderSignatures(doc, currentY, {
+    cliente: body.cliente,
+    responsavel: body.responsavel,
+  })
 
   // Finish the PDF document
   doc.end()
