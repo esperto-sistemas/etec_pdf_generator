@@ -2,8 +2,6 @@ import { FastifyReply } from 'fastify'
 
 import PDFKit from 'pdfkit'
 
-import { renderEquipment, renderExecutedActivities } from './sections'
-
 import { margin } from './constants'
 import { MaintenanceReport } from 'types/PdfBody'
 
@@ -11,8 +9,10 @@ import { renderHeader } from './sections/header'
 import { renderClient } from './sections/client'
 import { renderAddons } from './sections/addons'
 import { renderMaterials } from './sections/materials'
+import { renderEquipment } from './sections/equipments'
 import { renderSignatures } from './sections/signatures'
 import { renderObservations } from './sections/observations'
+import { renderExecutedActivities } from './sections/executedActivities'
 
 export async function maintenanceReportPdF(reply: FastifyReply, body: MaintenanceReport) {
   const doc = new PDFKit({ size: 'A4', margin })

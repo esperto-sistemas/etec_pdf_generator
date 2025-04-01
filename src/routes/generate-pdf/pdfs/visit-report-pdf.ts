@@ -2,16 +2,17 @@ import { FastifyReply } from 'fastify'
 
 import PDFKit from 'pdfkit'
 
-import { renderEquipment, renderExecutedActivities } from './sections'
-
 import { margin } from './constants'
 import { drawText, spaceBetweenSections } from './helpers'
 import { VisitReport } from 'types/PdfBody'
 
 import { renderHeader } from './sections/header'
 import { renderClient } from './sections/client'
+import { renderEquipment } from './sections/equipments'
 import { renderSignatures } from './sections/signatures'
 import { renderObservations } from './sections/observations'
+import { renderExecutedActivities } from './sections/executedActivities'
+import dayjs from 'dayjs'
 
 export async function visitReportPdf(reply: FastifyReply, body: VisitReport) {
   const doc = new PDFKit({ size: 'A4', margin })
@@ -24,13 +25,15 @@ export async function visitReportPdf(reply: FastifyReply, body: VisitReport) {
   doc.registerFont('Inter-Medium', 'src/assets/fonts/Inter-Medium.ttf')
   doc.registerFont('Inter-Regular', 'src/assets/fonts/Inter-Regular.ttf')
 
-  renderHeader(doc, 'Relatório de VISITA', {
+  renderHeader(doc, 'RELATÓRIO DE VISITA', {
     data: body.data,
     numero: body.numero,
   })
 
-  drawText(doc, 'Data da próxima visita: 20/04/2025', { continued: true })
-  drawText(doc, 'Vendedor: Nome do vendedor', { align: 'right' })
+  drawText(doc, `Data da próxima visita: ${dayjs(body.dataProximaVisita).format('DD/MM/YYYY')}`, {
+    continued: true,
+  })
+  drawText(doc, `Vendedor: ${body.responsavel.nome}`, { align: 'right' })
 
   spaceBetweenSections(doc)
 
@@ -53,7 +56,7 @@ export async function visitReportPdf(reply: FastifyReply, body: VisitReport) {
   }
 
   //Signatures
-  renderSignatures(doc, currentY, {
+  await renderSignatures(doc, currentY, {
     cliente: body.cliente,
     responsavel: body.responsavel,
   })

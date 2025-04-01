@@ -9,9 +9,17 @@ type RenderAddonsData = Pick<
 >
 
 export function renderAddons(doc: PDFKit.PDFDocument, data: RenderAddonsData) {
+  const hasDiasTrabalhados = data.diasTrabalhados.length > 0
+  const hasRefeicoes = data.quantidadeRefeicoes > 0
+  const hasPedagios = data.quantidadePedagios > 0
+
+  if (!hasDiasTrabalhados && !hasRefeicoes && !hasPedagios) {
+    return
+  }
+
   drawHeader(doc, 'ADICIONAIS')
 
-  if (data.diasTrabalhados.length > 0) {
+  if (hasDiasTrabalhados) {
     data.diasTrabalhados.forEach((dia) => {
       drawSubtitle(doc, `Dia: ${dayjs(dia.data).format('DD/MM/YYYY')}`, {}, headerTextColor)
       dia.horarios.forEach((horario, index) => {
@@ -32,12 +40,12 @@ export function renderAddons(doc: PDFKit.PDFDocument, data: RenderAddonsData) {
     })
   }
 
-  if (data.quantidadeRefeicoes > 0) {
+  if (hasRefeicoes) {
     drawText(doc, 'Refeições: Sim', { continued: true })
     drawText(doc, `Quantidade: ${data.quantidadeRefeicoes}`, { align: 'right' })
   }
 
-  if (data.quantidadePedagios > 0) {
+  if (hasPedagios) {
     doc.moveDown(0.5)
     drawText(doc, 'Pedágios: Sim', { continued: true })
     drawText(doc, `Quantidade: ${data.quantidadePedagios}`, { align: 'right' })

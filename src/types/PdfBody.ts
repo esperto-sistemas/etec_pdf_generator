@@ -57,6 +57,7 @@ const VisitReportSchema = Type.Object({
 
   data: Type.String(),
   numero: Type.String(),
+  dataProximaVisita: Type.String(),
 
   cliente: ClienteSchema,
   responsavel: ResponsavelSchema,

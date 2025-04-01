@@ -13,8 +13,8 @@ export async function buildServer() {
   await server.register(swagger, {
     openapi: {
       info: {
-        title: 'PDF Generator API',
-        description: 'API for generating PDF documents',
+        title: 'Etec PDF Generator',
+        description: 'API para geração de relatórios em PDF',
         version: '1.0.0',
       },
       servers: [{ url: 'http://localhost:3000' }],
