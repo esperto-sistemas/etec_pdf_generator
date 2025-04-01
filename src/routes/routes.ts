@@ -33,6 +33,7 @@ export async function routes(app: FastifyInstance) {
           properties: {
             tipoRelatorio: { type: 'string', enum: ['visita', 'manutencao'] },
             data: { type: 'string', format: 'date' },
+
             cliente: {
               type: 'object',
               properties: {
@@ -49,6 +50,10 @@ export async function routes(app: FastifyInstance) {
               },
               required: ['nome', 'assinatura'],
             },
+            nomeResponsavel: { type: 'string' },
+            responsavelSetor: { type: 'string' },
+            cpfCnpj: { type: 'string' },
+            telefone: { type: 'string' },
           },
           required: ['tipoRelatorio'],
         },

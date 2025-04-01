@@ -2,7 +2,14 @@ import { Static, Type } from '@sinclair/typebox'
 
 const MaintenanceReportSchema = Type.Object({
   tipoRelatorio: Type.Literal('manutencao'),
+
   data: Type.String(),
+  numero: Type.String(),
+  nomeResponsavel: Type.String(),
+  responsavelSetor: Type.String(),
+  cpfCnpj: Type.String(),
+  telefone: Type.String(),
+
   cliente: Type.Object({
     nome: Type.String(),
     assinatura: Type.String(),
@@ -16,7 +23,14 @@ const MaintenanceReportSchema = Type.Object({
 
 const VisitReportSchema = Type.Object({
   tipoRelatorio: Type.Literal('visita'),
+
   data: Type.String(),
+  numero: Type.String(),
+  nomeResponsavel: Type.String(),
+  responsavelSetor: Type.String(),
+  cpfCnpj: Type.String(),
+  telefone: Type.String(),
+
   cliente: Type.Object({
     nome: Type.String(),
     assinatura: Type.String(),

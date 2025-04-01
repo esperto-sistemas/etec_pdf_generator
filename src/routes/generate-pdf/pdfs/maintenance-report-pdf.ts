@@ -4,7 +4,6 @@ import PDFKit from 'pdfkit'
 
 import {
   renderAddons,
-  renderClient,
   renderEquipment,
   renderExecutedActivities,
   renderMaterials,
@@ -14,7 +13,9 @@ import {
 
 import { margin } from './constants'
 import { MaintenanceReport } from 'types/PdfBody'
+
 import { renderHeader } from './sections/header'
+import { renderClient } from './sections/client'
 
 export function maintenanceReportPdF(reply: FastifyReply, body: MaintenanceReport) {
   const doc = new PDFKit({ size: 'A4', margin })
@@ -30,10 +31,17 @@ export function maintenanceReportPdF(reply: FastifyReply, body: MaintenanceRepor
   //Header
   renderHeader(doc, 'RELATÓRIO DE MANUTENÇÃO PREVENTIVA', {
     data: body.data,
+    numero: body.numero,
   })
 
   //Client
-  renderClient(doc, currentY)
+  renderClient(doc, currentY, {
+    cliente: body.cliente,
+    nomeResponsavel: body.nomeResponsavel,
+    responsavelSetor: body.responsavelSetor,
+    cpfCnpj: body.cpfCnpj,
+    telefone: body.telefone,
+  })
 
   //Equipment
   renderEquipment(doc, currentY)

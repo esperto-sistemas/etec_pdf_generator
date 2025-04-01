@@ -3,17 +3,18 @@ import { FastifyReply } from 'fastify'
 import PDFKit from 'pdfkit'
 
 import {
-  renderClient,
   renderEquipment,
   renderExecutedActivities,
   renderObservations,
   renderSignatures,
 } from './sections'
-import { renderHeader } from './sections/header'
 
 import { margin } from './constants'
 import { drawText, spaceBetweenSections } from './helpers'
 import { VisitReport } from 'types/PdfBody'
+
+import { renderHeader } from './sections/header'
+import { renderClient } from './sections/client'
 
 export function visitReportPdf(reply: FastifyReply, body: VisitReport) {
   const doc = new PDFKit({ size: 'A4', margin })
@@ -26,7 +27,10 @@ export function visitReportPdf(reply: FastifyReply, body: VisitReport) {
   doc.registerFont('Inter-Medium', 'src/assets/fonts/Inter-Medium.ttf')
   doc.registerFont('Inter-Regular', 'src/assets/fonts/Inter-Regular.ttf')
 
-  renderHeader(doc, 'Relatório de VISITA')
+  renderHeader(doc, 'Relatório de VISITA', {
+    data: body.data,
+    numero: body.numero,
+  })
 
   drawText(doc, 'Data da próxima visita: 20/04/2025', { continued: true })
   drawText(doc, 'Vendedor: Nome do vendedor', { align: 'right' })
@@ -34,7 +38,13 @@ export function visitReportPdf(reply: FastifyReply, body: VisitReport) {
   spaceBetweenSections(doc)
 
   //Client
-  renderClient(doc, currentY)
+  renderClient(doc, currentY, {
+    cliente: body.cliente,
+    nomeResponsavel: body.nomeResponsavel,
+    responsavelSetor: body.responsavelSetor,
+    cpfCnpj: body.cpfCnpj,
+    telefone: body.telefone,
+  })
 
   //Equipment
   renderEquipment(doc, currentY, true)

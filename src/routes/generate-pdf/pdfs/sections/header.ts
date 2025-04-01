@@ -5,9 +5,9 @@ import type { GeneratePDFBody } from 'types/PdfBody'
 import { marginHorizontal, marginTop, paddingBetweenColumns } from '../constants'
 import { drawSubtitle, drawText, drawTitle, spaceBetweenSections } from '../helpers'
 
-type RenderHeaderData = Pick<GeneratePDFBody, 'data'>
+type RenderHeaderData = Pick<GeneratePDFBody, 'data' | 'numero'>
 
-export function renderHeader(doc: PDFKit.PDFDocument, title: string, data?: RenderHeaderData) {
+export function renderHeader(doc: PDFKit.PDFDocument, title: string, data: RenderHeaderData) {
   const logoWidth = 80
 
   doc.image('src/assets/images/logo.png', marginHorizontal, marginTop, {
@@ -24,8 +24,8 @@ export function renderHeader(doc: PDFKit.PDFDocument, title: string, data?: Rend
 
   doc.moveDown(1)
   doc.x = marginHorizontal
-  drawText(doc, `Data: ${dayjs(data?.data).format('DD/MM/YYYY')}`, { continued: true })
-  drawText(doc, 'Número: P 346', { align: 'right' })
+  drawText(doc, `Data: ${dayjs(data.data).format('DD/MM/YYYY')}`, { continued: true })
+  drawText(doc, `Número: ${data.numero}`, { align: 'right' })
 
   spaceBetweenSections(doc)
 }

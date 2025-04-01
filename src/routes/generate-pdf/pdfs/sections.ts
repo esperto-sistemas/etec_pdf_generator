@@ -7,21 +7,6 @@ import {
 } from './constants'
 import { drawHeader, drawSubtitle, drawText, spaceBetweenSections } from './helpers'
 
-export function renderClient(doc: PDFKit.PDFDocument, currentY: number) {
-  drawHeader(doc, 'CLIENTE')
-  drawText(doc, 'Nome: João da Silva', { continued: true })
-  drawText(doc, 'CNPJ: 12.345.678/0001-90', { align: 'right' })
-  doc.moveDown(0.5)
-  currentY = doc.y
-  drawText(doc, 'Responsável: Dirlei')
-  doc.y = currentY
-  drawText(doc, 'Setor: Proprietário', { align: 'center' })
-  doc.y = currentY
-  drawText(doc, 'Fone: (54) 99955-3348', { align: 'right' })
-
-  spaceBetweenSections(doc)
-}
-
 export function renderEquipment(doc: PDFKit.PDFDocument, currentY: number, visit = false) {
   drawHeader(doc, 'EQUIPAMENTO')
 
