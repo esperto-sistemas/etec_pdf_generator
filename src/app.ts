@@ -1,3 +1,5 @@
+import 'dayjs/locale/pt-br'
+
 import fastify from 'fastify'
 import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox'
 import swagger from '@fastify/swagger'
