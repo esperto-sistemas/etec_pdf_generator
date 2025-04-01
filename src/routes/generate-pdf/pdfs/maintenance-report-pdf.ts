@@ -7,15 +7,16 @@ import {
   renderClient,
   renderEquipment,
   renderExecutedActivities,
-  renderHeader,
   renderMaterials,
   renderObservations,
   renderSignatures,
 } from './sections'
 
 import { margin } from './constants'
+import { MaintenanceReport } from 'types/PdfBody'
+import { renderHeader } from './sections/header'
 
-export function preventiveMaintenanceReportPdF(reply: FastifyReply) {
+export function maintenanceReportPdF(reply: FastifyReply, body: MaintenanceReport) {
   const doc = new PDFKit({ size: 'A4', margin })
   const currentY = doc.y
 
@@ -27,7 +28,9 @@ export function preventiveMaintenanceReportPdF(reply: FastifyReply) {
   doc.registerFont('Inter-Regular', 'src/assets/fonts/Inter-Regular.ttf')
 
   //Header
-  renderHeader(doc, 'RELATÓRIO DE MANUTENÇÃO PREVENTIVA')
+  renderHeader(doc, 'RELATÓRIO DE MANUTENÇÃO PREVENTIVA', {
+    data: body.data,
+  })
 
   //Client
   renderClient(doc, currentY)

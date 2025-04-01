@@ -3,14 +3,14 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 export function healthCheck(_: FastifyRequest, reply: FastifyReply) {
   try {
     return reply.status(200).send({
-      message: 'Welcome to the PDF Generator API',
+      message: 'Serviço está ativo!',
       timestamp: Date.now(),
     })
   } catch {
     reply.status(500).send({
       statusCode: 500,
-      error: 'Internal Server Error',
-      message: 'An unexpected error occurred',
+      error: 'Erro interno do servidor',
+      message: 'Um erro inesperado ocorreu, tente novamente mais tarde.',
     })
   }
 }

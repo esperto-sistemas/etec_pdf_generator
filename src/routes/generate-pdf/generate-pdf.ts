@@ -1,38 +1,41 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
+import { Value } from '@sinclair/typebox/value'
 
-import type { GeneratePDFBody } from 'types/PdfBody'
+import { GeneratePDFBody, GeneratePDFSchema } from 'types/PdfBody'
 
 import { visitReportPdf } from './pdfs/visit-report-pdf'
-import { preventiveMaintenanceReportPdF } from './pdfs/preventive-maintenance-report-pdf'
+import { maintenanceReportPdF } from './pdfs/maintenance-report-pdf'
 
 export function generatePDF(req: FastifyRequest<{ Body: GeneratePDFBody }>, reply: FastifyReply) {
   try {
-    const { reportType } = req.body
+    const validationResult = Value.Check(GeneratePDFSchema, req.body)
 
-    if (!reportType) {
+    if (!validationResult) {
       return reply.status(400).send({
         statusCode: 400,
-        error: 'Bad Request',
-        message: 'reportType is required',
+        error: 'Requisição inválida',
+        message: 'O corpo da requisição não atende ao formato esperado.',
       })
     }
+
+    const { tipoRelatorio } = req.body
 
     reply.header('Content-Type', 'application/pdf')
     reply.header('Content-Disposition', 'attachment; filename="report.pdf"')
 
-    switch (reportType) {
-      case 'visitReport':
-        visitReportPdf(reply)
+    switch (tipoRelatorio) {
+      case 'manutencao':
+        maintenanceReportPdF(reply, req.body)
         break
-      case 'preventiveMaintenanceReport':
-        preventiveMaintenanceReportPdF(reply)
+      case 'visita':
+        visitReportPdf(reply, req.body)
         break
     }
   } catch {
     reply.status(500).send({
       statusCode: 500,
-      error: 'Internal Server Error',
-      message: 'An unexpected error occurred while generating the PDF.',
+      error: 'Erro interno do servidor',
+      message: 'Um erro inesperado ocorreu, tente novamente mais tarde.',
     })
   }
 }

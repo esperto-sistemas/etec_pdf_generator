@@ -6,15 +6,16 @@ import {
   renderClient,
   renderEquipment,
   renderExecutedActivities,
-  renderHeader,
   renderObservations,
   renderSignatures,
 } from './sections'
+import { renderHeader } from './sections/header'
 
 import { margin } from './constants'
 import { drawText, spaceBetweenSections } from './helpers'
+import { VisitReport } from 'types/PdfBody'
 
-export function visitReportPdf(reply: FastifyReply) {
+export function visitReportPdf(reply: FastifyReply, body: VisitReport) {
   const doc = new PDFKit({ size: 'A4', margin })
   const currentY = doc.y
 

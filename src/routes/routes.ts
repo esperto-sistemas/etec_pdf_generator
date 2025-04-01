@@ -12,7 +12,7 @@ export async function routes(app: FastifyInstance) {
     '/',
     {
       schema: {
-        description: 'Health check endpoint',
+        description: 'Endpoint de health check (verifica se o serviço está ativo)',
         response: {
           200: HealthCheckResponseSchema,
           400: ErrorResponseSchema,
@@ -24,16 +24,33 @@ export async function routes(app: FastifyInstance) {
   )
 
   app.post(
-    '/generate-pdf',
+    '/gerar-relatorio',
     {
       schema: {
-        description: 'Generate PDF endpoint',
+        description: 'Endpoint para gerar PDF de relatórios',
         body: {
           type: 'object',
           properties: {
-            reportType: { type: 'string', enum: ['visitReport', 'preventiveMaintenanceReport'] },
+            tipoRelatorio: { type: 'string', enum: ['visita', 'manutencao'] },
+            data: { type: 'string', format: 'date' },
+            cliente: {
+              type: 'object',
+              properties: {
+                nome: { type: 'string' },
+                assinatura: { type: 'string' },
+              },
+              required: ['nome', 'assinatura'],
+            },
+            responsavel: {
+              type: 'object',
+              properties: {
+                nome: { type: 'string' },
+                assinatura: { type: 'string' },
+              },
+              required: ['nome', 'assinatura'],
+            },
           },
-          required: ['reportType'],
+          required: ['tipoRelatorio'],
         },
         response: {
           200: PdfResponseSchema,
