@@ -54,6 +54,52 @@ export async function routes(app: FastifyInstance) {
             responsavelSetor: { type: 'string' },
             cpfCnpj: { type: 'string' },
             telefone: { type: 'string' },
+
+            materiais: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  codigo: { type: 'number' },
+                  quantidade: { type: 'number' },
+                  material: {
+                    type: 'object',
+                    properties: {
+                      codigo: { type: 'number' },
+                      nome: { type: 'string' },
+                    },
+                    required: ['codigo', 'nome'],
+                  },
+                },
+                required: ['codigo', 'quantidade', 'material'],
+              },
+            },
+
+            diasTrabalhados: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  data: { type: 'string', format: 'date' },
+                  horarios: {
+                    type: 'array',
+                    items: {
+                      type: 'object',
+                      properties: {
+                        horaInicial: { type: 'string' },
+                        horaFinal: { type: 'string' },
+                      },
+                      required: ['horaInicial', 'horaFinal'],
+                    },
+                  },
+                },
+                required: ['data', 'horarios'],
+              },
+            },
+            quantidadeRefeicoes: { type: 'number' },
+            quantidadePedagios: { type: 'number' },
+
+            observacoes: { type: 'string' },
           },
           required: ['tipoRelatorio'],
         },
