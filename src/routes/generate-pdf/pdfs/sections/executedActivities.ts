@@ -61,6 +61,10 @@ export async function renderExecutedActivities(
         .text(`+ ${body.imagens.length - maxImages} imagem(ns) não exibida(s)`, { align: 'center' })
     }
 
+    // Move the y position down to avoid overlap
+    const movement = Math.ceil(imagesToRender.length / 2) * (imageHeight + paddingBetweenColumns)
+    doc.y = doc.y + movement
+
     doc.moveDown(2)
   }
 }
