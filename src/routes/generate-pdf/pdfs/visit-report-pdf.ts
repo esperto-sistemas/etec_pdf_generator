@@ -48,7 +48,10 @@ export async function visitReportPdf(reply: FastifyReply, body: VisitReport) {
   renderEquipment(doc, currentY, true)
 
   //Executed activities
-  renderExecutedActivities(doc, true)
+  await renderExecutedActivities(doc, true, {
+    descricaoAtividades: body.descricaoAtividades,
+    imagens: body.imagens,
+  })
 
   //Observations
   if (body.observacoes) {

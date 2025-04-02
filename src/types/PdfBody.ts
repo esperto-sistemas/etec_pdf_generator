@@ -12,6 +12,28 @@ const ResponsavelSchema = Type.Object({
   assinatura: Type.String(),
 })
 
+const MaterialSchema = Type.Object({
+  quantidade: Type.Number(),
+  material: Type.Object({
+    nome: Type.String(),
+  }),
+})
+
+const DiaTrabalhadaSchema = Type.Object({
+  data: Type.String(),
+  horarios: Type.Array(
+    Type.Object({
+      horaInicial: Type.String(),
+      horaFinal: Type.String(),
+    }),
+  ),
+})
+
+const ImagemSchema = Type.Object({
+  imagem: Type.String(),
+  mimeType: Type.String(),
+})
+
 const MaintenanceReportSchema = Type.Object({
   tipoRelatorio: Type.Literal('manutencao'),
 
@@ -23,33 +45,16 @@ const MaintenanceReportSchema = Type.Object({
   nomeResponsavel: Type.String(),
   responsavelSetor: Type.String(),
 
-  materiais: Type.Array(
-    Type.Object({
-      codigo: Type.Number(),
-      quantidade: Type.Number(),
-      material: Type.Object({
-        codigo: Type.Number(),
-        nome: Type.String(),
-      }),
-    }),
-  ),
+  descricaoAtividades: Type.String(),
+  imagens: Type.Array(ImagemSchema),
 
-  diasTrabalhados: Type.Array(
-    Type.Object({
-      data: Type.String(),
-      horarios: Type.Array(
-        Type.Object({
-          horaInicial: Type.String(),
-          horaFinal: Type.String(),
-        }),
-      ),
-    }),
-  ),
+  materiais: Type.Array(MaterialSchema),
+
+  diasTrabalhados: Type.Array(DiaTrabalhadaSchema),
   quantidadeRefeicoes: Type.Number(),
   quantidadePedagios: Type.Number(),
 
   observacoes: Type.Optional(Type.String()),
-  //TODO: Add the rest of the properties for maintenance report
 })
 
 const VisitReportSchema = Type.Object({
@@ -64,8 +69,10 @@ const VisitReportSchema = Type.Object({
   nomeResponsavel: Type.String(),
   responsavelSetor: Type.String(),
 
+  descricaoAtividades: Type.String(),
+  imagens: Type.Array(ImagemSchema),
+
   observacoes: Type.Optional(Type.String()),
-  //TODO: Add the rest of the properties for visit report
 })
 
 export const GeneratePDFSchema = Type.Union([VisitReportSchema, MaintenanceReportSchema])

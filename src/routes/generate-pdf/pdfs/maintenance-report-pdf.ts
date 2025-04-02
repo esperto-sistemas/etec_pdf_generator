@@ -42,7 +42,10 @@ export async function maintenanceReportPdF(reply: FastifyReply, body: Maintenanc
   renderEquipment(doc, currentY)
 
   //Executed activities
-  renderExecutedActivities(doc)
+  await renderExecutedActivities(doc, false, {
+    descricaoAtividades: body.descricaoAtividades,
+    imagens: body.imagens,
+  })
 
   //Start new page
   doc.addPage()

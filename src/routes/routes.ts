@@ -38,9 +38,11 @@ export async function routes(app: FastifyInstance) {
               type: 'object',
               properties: {
                 nome: { type: 'string' },
+                cpfCnpj: { type: 'string' },
+                telefone: { type: 'string' },
                 assinatura: { type: 'string' },
               },
-              required: ['nome', 'assinatura'],
+              required: ['nome', 'cpfCnpj', 'telefone', 'assinatura'],
             },
             responsavel: {
               type: 'object',
@@ -52,26 +54,35 @@ export async function routes(app: FastifyInstance) {
             },
             nomeResponsavel: { type: 'string' },
             responsavelSetor: { type: 'string' },
-            cpfCnpj: { type: 'string' },
-            telefone: { type: 'string' },
+
+            descricaoAtividades: { type: 'string' },
+            imagens: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  imagem: { type: 'string' },
+                  mimeType: { type: 'string' },
+                },
+                required: ['imagem'],
+              },
+            },
 
             materiais: {
               type: 'array',
               items: {
                 type: 'object',
                 properties: {
-                  codigo: { type: 'number' },
                   quantidade: { type: 'number' },
                   material: {
                     type: 'object',
                     properties: {
-                      codigo: { type: 'number' },
                       nome: { type: 'string' },
                     },
-                    required: ['codigo', 'nome'],
+                    required: ['nome'],
                   },
                 },
-                required: ['codigo', 'quantidade', 'material'],
+                required: ['quantidade', 'material'],
               },
             },
 
