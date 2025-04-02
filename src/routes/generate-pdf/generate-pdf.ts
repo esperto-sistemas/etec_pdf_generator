@@ -24,12 +24,24 @@ export function generatePDF(req: FastifyRequest<{ Body: GeneratePDFBody }>, repl
     reply.header('Content-Disposition', 'attachment; filename="report.pdf"')
 
     switch (tipoRelatorio) {
-      case 'manutencao':
-        maintenanceReportPdF(reply, req.body)
+      case 'PREVENTIVA':
+        maintenanceReportPdF(reply, req.body, 'RELATÓRIO DE MANUTENÇÃO PREVENTIVA')
         break
-      case 'visita':
+      case 'CORRETIVA':
+        maintenanceReportPdF(reply, req.body, 'RELATÓRIO DE MANUTENÇÃO CORRETIVA')
+        break
+      case 'MANUTENCAO':
+        maintenanceReportPdF(reply, req.body, 'RELATÓRIO DE MANUTENÇÃO')
+        break
+      case 'VISITA':
         visitReportPdf(reply, req.body)
         break
+      default:
+        return reply.status(400).send({
+          statusCode: 400,
+          error: 'Requisição inválida',
+          message: 'Tipo de relatório não suportado.',
+        })
     }
   } catch {
     reply.status(500).send({

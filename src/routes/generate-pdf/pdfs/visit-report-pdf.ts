@@ -4,7 +4,7 @@ import PDFKit from 'pdfkit'
 
 import { margin } from './constants'
 import { drawText, spaceBetweenSections } from './helpers'
-import { VisitReport } from 'types/PdfBody'
+import type { GeneratePDFBody } from 'types/PdfBody'
 
 import { renderHeader } from './sections/header'
 import { renderClient } from './sections/client'
@@ -14,7 +14,7 @@ import { renderObservations } from './sections/observations'
 import { renderExecutedActivities } from './sections/executedActivities'
 import dayjs from 'dayjs'
 
-export async function visitReportPdf(reply: FastifyReply, body: VisitReport) {
+export async function visitReportPdf(reply: FastifyReply, body: GeneratePDFBody) {
   const doc = new PDFKit({ size: 'A4', margin })
   const currentY = doc.y
 
@@ -45,7 +45,15 @@ export async function visitReportPdf(reply: FastifyReply, body: VisitReport) {
   })
 
   //Equipment
-  renderEquipment(doc, currentY, true)
+  renderEquipment(doc, currentY, true, {
+    modelo: body.modelo,
+    estagio: body.estagio,
+    garantia: body.garantia,
+    aplicacao: body.aplicacao,
+    tipoQueimador: body.tipoQueimador,
+    tipoIntervencao: body.tipoIntervencao,
+    equipamentoQuantidade: body.equipamentoQuantidade,
+  })
 
   //Executed activities
   await renderExecutedActivities(doc, true, {

@@ -31,7 +31,10 @@ export async function routes(app: FastifyInstance) {
         body: {
           type: 'object',
           properties: {
-            tipoRelatorio: { type: 'string', enum: ['visita', 'manutencao'] },
+            tipoRelatorio: {
+              type: 'string',
+              enum: ['MANUTENCAO', 'CORRETIVA', 'PREVENTIVA', 'VISITA'],
+            },
             data: { type: 'string', format: 'date' },
 
             cliente: {
@@ -54,6 +57,41 @@ export async function routes(app: FastifyInstance) {
             },
             nomeResponsavel: { type: 'string' },
             responsavelSetor: { type: 'string' },
+
+            modelo: {
+              type: 'object',
+              properties: {
+                nome: { type: 'string' },
+                equipamento: {
+                  type: 'object',
+                  properties: { nome: { type: 'string' } },
+                  required: ['nome'],
+                },
+                marca: {
+                  type: 'object',
+                  properties: { nome: { type: 'string' } },
+                  required: ['nome'],
+                },
+              },
+              required: ['nome', 'equipamento', 'marca'],
+            },
+            garantia: {
+              type: 'string',
+              enum: ['COM_GARANTIA', 'SEM_GARANTIA'],
+            },
+            estagio: {
+              type: 'string',
+              enum: ['I_ESTAGIO', 'II_ESTAGIO', 'MODULANTE'],
+            },
+            tipoQueimador: {
+              type: 'string',
+              enum: ['GAS_GLP', 'GAS_NATURAL', 'DIESEL'],
+            },
+            aplicacao: {
+              type: 'string',
+              enum: ['ESTUFA_DE_CURA_PO', 'ESTUFA_DE_CURA_LIQUIDA', 'BANHO', 'SECAGEM', 'OUTROS'],
+            },
+            equipamentoQuantidade: { type: 'number' },
 
             descricaoAtividades: { type: 'string' },
             imagens: {

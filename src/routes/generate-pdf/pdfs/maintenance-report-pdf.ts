@@ -3,7 +3,7 @@ import { FastifyReply } from 'fastify'
 import PDFKit from 'pdfkit'
 
 import { margin } from './constants'
-import { MaintenanceReport } from 'types/PdfBody'
+import type { GeneratePDFBody } from 'types/PdfBody'
 
 import { renderHeader } from './sections/header'
 import { renderClient } from './sections/client'
@@ -14,7 +14,11 @@ import { renderSignatures } from './sections/signatures'
 import { renderObservations } from './sections/observations'
 import { renderExecutedActivities } from './sections/executedActivities'
 
-export async function maintenanceReportPdF(reply: FastifyReply, body: MaintenanceReport) {
+export async function maintenanceReportPdF(
+  reply: FastifyReply,
+  body: GeneratePDFBody,
+  title: string,
+) {
   const doc = new PDFKit({ size: 'A4', margin })
   const currentY = doc.y
 
@@ -26,7 +30,7 @@ export async function maintenanceReportPdF(reply: FastifyReply, body: Maintenanc
   doc.registerFont('Inter-Regular', 'src/assets/fonts/Inter-Regular.ttf')
 
   //Header
-  renderHeader(doc, 'RELATÓRIO DE MANUTENÇÃO PREVENTIVA', {
+  renderHeader(doc, title, {
     data: body.data,
     numero: body.numero,
   })
@@ -39,7 +43,15 @@ export async function maintenanceReportPdF(reply: FastifyReply, body: Maintenanc
   })
 
   //Equipment
-  renderEquipment(doc, currentY)
+  renderEquipment(doc, currentY, false, {
+    modelo: body.modelo,
+    estagio: body.estagio,
+    garantia: body.garantia,
+    aplicacao: body.aplicacao,
+    tipoQueimador: body.tipoQueimador,
+    tipoIntervencao: body.tipoIntervencao,
+    equipamentoQuantidade: body.equipamentoQuantidade,
+  })
 
   //Executed activities
   await renderExecutedActivities(doc, false, {
