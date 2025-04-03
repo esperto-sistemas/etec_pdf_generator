@@ -40,7 +40,7 @@ export async function visitReportPdf(reply: FastifyReply, body: GeneratePDFBody)
   //Client
   renderClient(doc, currentY, {
     cliente: body.cliente,
-    nomeResponsavel: body.nomeResponsavel,
+    nomeResponsavelSetor: body.nomeResponsavelSetor,
     responsavelSetor: body.responsavelSetor,
   })
 

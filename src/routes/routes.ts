@@ -56,7 +56,7 @@ export async function routes(app: FastifyInstance) {
               },
               required: ['nome', 'assinatura'],
             },
-            nomeResponsavel: { type: 'string' },
+            nomeResponsavelSetor: { type: 'string' },
             responsavelSetor: { type: 'string' },
 
             modelo: {

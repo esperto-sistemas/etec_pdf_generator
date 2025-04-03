@@ -1,7 +1,10 @@
 import { GeneratePDFBody } from 'types/PdfBody'
 import { drawHeader, drawText, spaceBetweenSections } from '../helpers'
 
-type RenderClientData = Pick<GeneratePDFBody, 'cliente' | 'nomeResponsavel' | 'responsavelSetor'>
+type RenderClientData = Pick<
+  GeneratePDFBody,
+  'cliente' | 'nomeResponsavelSetor' | 'responsavelSetor'
+>
 
 export function renderClient(doc: PDFKit.PDFDocument, currentY: number, data: RenderClientData) {
   const isCNPJ = data.cliente.cpfCnpj.replace(/\D/g, '').length === 14
@@ -12,7 +15,7 @@ export function renderClient(doc: PDFKit.PDFDocument, currentY: number, data: Re
   drawText(doc, textDocument, { align: 'right' })
   doc.moveDown(0.5)
   currentY = doc.y
-  drawText(doc, `Responsável: ${data.nomeResponsavel}`)
+  drawText(doc, `Responsável: ${data.nomeResponsavelSetor}`)
   doc.y = currentY
   drawText(doc, `Setor: ${data.responsavelSetor}`, { align: 'center' })
   doc.y = currentY
