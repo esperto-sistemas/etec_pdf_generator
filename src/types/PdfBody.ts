@@ -86,6 +86,10 @@ export const GeneratePDFSchema = Type.Object({
   responsavelSetor: Type.String(),
 
   modelo: ModeloSchema,
+  quantidadeMarca: Type.Optional(Type.Number()),
+  quantidadeModelo: Type.Optional(Type.Number()),
+  quantidadeEstagio: Type.Optional(Type.Number()),
+
   garantia: Type.Union([Type.Literal('COM_GARANTIA'), Type.Literal('SEM_GARANTIA')]),
   estagio: Type.Optional(EstagioSchema),
   tipoQueimador: Type.Optional(TipoQueimadorSchema),

@@ -51,6 +51,9 @@ export async function maintenanceReportPdF(
     tipoQueimador: body.tipoQueimador,
     tipoIntervencao: body.tipoIntervencao,
     equipamentoQuantidade: body.equipamentoQuantidade,
+    quantidadeEstagio: body.quantidadeEstagio,
+    quantidadeMarca: body.quantidadeMarca,
+    quantidadeModelo: body.quantidadeModelo,
   })
 
   //Executed activities

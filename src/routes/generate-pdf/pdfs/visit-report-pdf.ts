@@ -53,6 +53,9 @@ export async function visitReportPdf(reply: FastifyReply, body: GeneratePDFBody)
     tipoQueimador: body.tipoQueimador,
     tipoIntervencao: body.tipoIntervencao,
     equipamentoQuantidade: body.equipamentoQuantidade,
+    quantidadeEstagio: body.quantidadeEstagio,
+    quantidadeMarca: body.quantidadeMarca,
+    quantidadeModelo: body.quantidadeModelo,
   })
 
   //Executed activities

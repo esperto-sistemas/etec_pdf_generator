@@ -1,6 +1,6 @@
 import { GeneratePDFBody } from 'types/PdfBody'
-import { marginHorizontal } from '../constants'
-import { drawHeader, drawText, spaceBetweenSections } from '../helpers'
+import { headerTextColor, marginHorizontal, paddingBetweenColumns } from '../constants'
+import { drawHeader, drawSubtitle, drawText, spaceBetweenSections } from '../helpers'
 
 type RenderEquipmentData = Pick<
   GeneratePDFBody,
@@ -11,6 +11,9 @@ type RenderEquipmentData = Pick<
   | 'tipoQueimador'
   | 'aplicacao'
   | 'equipamentoQuantidade'
+  | 'quantidadeEstagio'
+  | 'quantidadeMarca'
+  | 'quantidadeModelo'
 >
 
 export function renderEquipment(
@@ -22,15 +25,6 @@ export function renderEquipment(
   drawHeader(doc, 'EQUIPAMENTO')
 
   const textGarantia = data.garantia === 'COM_GARANTIA' ? 'Com garantia' : 'Sem garantia'
-
-  currentY = doc.y
-  drawText(doc, `Nome: ${data.modelo.equipamento.nome}`)
-  doc.y = currentY
-  drawText(doc, `Marca: ${data.modelo.marca.nome}`, { align: 'center' })
-  doc.y = currentY
-  drawText(doc, `Modelo: ${data.modelo.nome}`, { align: 'right' })
-
-  doc.moveDown(0.5)
 
   if (visit) {
     const estagio = (() => {
@@ -76,9 +70,37 @@ export function renderEquipment(
       }
     })()
 
+    currentY = doc.y
+    const columnWidth = (doc.page.width - marginHorizontal * 2 - paddingBetweenColumns) / 2
+    drawSubtitle(doc, 'Descrição', { width: columnWidth, align: 'left' }, headerTextColor)
+
+    doc.x = marginHorizontal + columnWidth + paddingBetweenColumns
+    doc.y = currentY
+    drawSubtitle(doc, 'Quantidade', { width: columnWidth, align: 'left' }, headerTextColor)
+
+    doc.moveDown(0.5)
+
+    const equipmentDetails = [
+      { description: `Marca: ${data.modelo.marca.nome}`, quantity: data.quantidadeMarca || 0 },
+      { description: `Modelo: ${data.modelo.nome}`, quantity: data.quantidadeModelo || 0 },
+      { description: `Estágio: ${estagio}`, quantity: data.quantidadeEstagio || 0 },
+    ]
+
+    equipmentDetails.forEach((detail) => {
+      if (detail.quantity === 0) return
+
+      currentY = doc.y
+      doc.x = marginHorizontal
+      drawText(doc, detail.description, { width: columnWidth, align: 'left' })
+
+      doc.y = currentY
+      doc.x = marginHorizontal + columnWidth + paddingBetweenColumns
+      drawText(doc, detail.quantity.toString(), { width: columnWidth, align: 'left' })
+
+      doc.moveDown(0.5)
+    })
+
     doc.x = marginHorizontal
-    drawText(doc, `Quantidade: ${data.equipamentoQuantidade || 1}`, { continued: true })
-    drawText(doc, `Estágio: ${estagio}`, { align: 'right' })
     doc.moveDown(0.5)
     drawText(doc, `Tipo de queimador: ${textTipoQueimador}`, { continued: true })
     drawText(doc, `Aplicação: ${textAplicacao}`, { align: 'right' })
@@ -98,7 +120,15 @@ export function renderEquipment(
       }
     })()
 
+    currentY = doc.y
+    drawText(doc, `Nome: ${data.modelo.equipamento.nome}`)
+    doc.y = currentY
+    drawText(doc, `Marca: ${data.modelo.marca.nome}`, { align: 'center' })
+    doc.y = currentY
+    drawText(doc, `Modelo: ${data.modelo.nome}`, { align: 'right' })
+
     doc.moveDown(0.5)
+
     drawText(doc, textGarantia, { continued: true })
     drawText(doc, `Tipo de intervenção: ${textIntervencao}`, { align: 'right' })
   }

@@ -76,6 +76,9 @@ export async function routes(app: FastifyInstance) {
               },
               required: ['nome', 'equipamento', 'marca'],
             },
+            quantidadeMarca: { type: 'number' },
+            quantidadeModelo: { type: 'number' },
+            quantidadeEstagio: { type: 'number' },
             garantia: {
               type: 'string',
               enum: ['COM_GARANTIA', 'SEM_GARANTIA'],
@@ -151,7 +154,7 @@ export async function routes(app: FastifyInstance) {
 
             observacoes: { type: 'string' },
           },
-          required: ['tipoRelatorio'],
+          required: ['tipoRelatorio', 'data', 'cliente', 'modelo', 'descricaoAtividades'],
         },
         response: {
           200: PdfResponseSchema,
