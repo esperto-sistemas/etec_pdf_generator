@@ -5,6 +5,7 @@ const ClienteSchema = Type.Object({
   cpfCnpj: Type.String(),
   telefone: Type.String(),
   assinatura: Type.String(),
+  assinaturaNomeLegivel: Type.String(),
 })
 
 const ResponsavelSchema = Type.Object({

@@ -48,4 +48,11 @@ export async function renderSignatures(
     .moveTo(marginHorizontal + halfWidth + paddingBetweenColumns, lineY)
     .lineTo(marginHorizontal + halfWidth * 2 + paddingBetweenColumns, lineY)
     .stroke(textColor)
+
+  // Draw the names below the signatures
+  doc.fontSize(8)
+  doc.text(data.cliente.assinaturaNomeLegivel, marginHorizontal, lineY + 10, {
+    width: halfWidth,
+    align: 'center',
+  })
 }

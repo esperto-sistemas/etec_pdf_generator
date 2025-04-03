@@ -44,8 +44,9 @@ export async function routes(app: FastifyInstance) {
                 cpfCnpj: { type: 'string' },
                 telefone: { type: 'string' },
                 assinatura: { type: 'string' },
+                assinaturaNomeLegivel: { type: 'string' },
               },
-              required: ['nome', 'cpfCnpj', 'telefone', 'assinatura'],
+              required: ['nome', 'cpfCnpj', 'telefone', 'assinatura', 'assinaturaNomeLegivel'],
             },
             responsavel: {
               type: 'object',
