@@ -1,0 +1,45 @@
+name: Build and Deploy to Main
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: docker login
+      run: |
+        docker login https://docker.pkg.github.com -u ${{ github.actor }} -p ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+    - name: docker build
+      run: |
+        docker build . -t docker.pkg.github.com/${{github.repository}}/${{ github.event.repository.name }}-image:latest
+        
+    - name: docker push
+      run: |
+        docker push docker.pkg.github.com/${{github.repository}}/${{ github.event.repository.name }}-image:latest
+    
+    - name: docker logout
+      run: |
+        docker logout docker.pkg.github.com
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+      - name: ssh login and docker pull and docker-compose up
+
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            sudo docker login https://docker.pkg.github.com -u ${{ github.actor }} -p ${{ secrets.PERSONAL_ACCESS_TOKEN }}            
+            sudo docker-compose pull ${{ github.event.repository.name }} && sudo docker-compose up --no-deps -d ${{ github.event.repository.name }}
+            sudo docker logout docker.pkg.github.com
+            sudo docker system prune --all -f
