@@ -27,7 +27,7 @@ COPY package*.json ./
 RUN npm ci --production
 
 # Copy built application from builder stage
-COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/build ./build
 
 # Expose the port your app runs on
 EXPOSE 3000

@@ -1,8 +1,10 @@
 {
   "name": "pdf-generator",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "build/index.js",
   "scripts": {
+    "check": "tsc --noEmit && echo ✔ Ok",
+    "build": "tsc",
     "start": "cross-env NODE_ENV=production tsx ./src/server.ts",
     "dev": "cross-env NODE_ENV=development tsx ./src/server.ts",
     "dev:watch": "cross-env NODE_ENV=development tsx watch ./src/server.ts",

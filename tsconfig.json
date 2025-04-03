@@ -4,12 +4,14 @@
     "module": "commonjs",
     "strict": true,
     "esModuleInterop": true,
-    "noEmit": true,
     "sourceMap": true,
-    "allowImportingTsExtensions": true,
     "types": ["node"], // Add types for Node.js and Jest
     "moduleResolution": "node", // Ensure module resolution is set to node
-    "baseUrl": "./src" // Set base URL for module resolution
+    "baseUrl": "./src", // Set base URL for module resolution
+
+    // Output Options
+    "outDir": "./build",
+    "rootDir": "./src"
   },
   "include": ["src/**/*.ts", "tests/**/*.ts", "api/**/*.ts", "requests/**/*.ts"], // Include source and test files
   "exclude": ["node_modules"] // Exclude node_modules

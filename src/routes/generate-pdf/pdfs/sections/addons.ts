@@ -1,10 +1,11 @@
-import { MaintenanceReport } from 'types/PdfBody'
-import { drawHeader, drawSubtitle, drawText, spaceBetweenSections } from '../helpers'
 import dayjs from 'dayjs'
+import { drawHeader, drawSubtitle, drawText, spaceBetweenSections } from '../helpers'
 import { headerTextColor } from '../constants'
 
+import type { GeneratePDFBody } from 'types/PdfBody'
+
 type RenderAddonsData = Pick<
-  MaintenanceReport,
+  GeneratePDFBody,
   'diasTrabalhados' | 'quantidadePedagios' | 'quantidadeRefeicoes'
 >
 
