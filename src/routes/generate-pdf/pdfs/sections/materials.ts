@@ -1,8 +1,9 @@
-import { MaintenanceReport } from 'types/PdfBody'
 import { headerTextColor, marginHorizontal, paddingBetweenColumns } from '../constants'
 import { drawHeader, drawSubtitle, drawText, spaceBetweenSections } from '../helpers'
 
-type RenderMaterialsData = Pick<MaintenanceReport, 'materiais'>
+import type { GeneratePDFBody } from 'types/PdfBody'
+
+type RenderMaterialsData = Pick<GeneratePDFBody, 'materiais'>
 
 export function renderMaterials(
   doc: PDFKit.PDFDocument,

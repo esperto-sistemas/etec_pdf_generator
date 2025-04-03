@@ -26,7 +26,7 @@ const MaterialSchema = Type.Object({
   }),
 })
 
-const DiaTrabalhadaSchema = Type.Object({
+const DiasTrabalhadosSchema = Type.Object({
   data: Type.String(),
   horarios: Type.Array(
     Type.Object({
@@ -98,7 +98,7 @@ export const GeneratePDFSchema = Type.Object({
 
   materiais: Type.Array(MaterialSchema),
 
-  diasTrabalhados: Type.Array(DiaTrabalhadaSchema),
+  diasTrabalhados: Type.Array(DiasTrabalhadosSchema),
   quantidadeRefeicoes: Type.Number(),
   quantidadePedagios: Type.Number(),
 
