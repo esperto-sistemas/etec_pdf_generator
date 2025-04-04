@@ -82,7 +82,7 @@ export const GeneratePDFSchema = Type.Object({
 
   cliente: ClienteSchema,
   responsavel: ResponsavelSchema,
-  nomeResponsavel: Type.String(),
+  nomeResponsavelSetor: Type.String(),
   responsavelSetor: Type.String(),
 
   modelo: ModeloSchema,
