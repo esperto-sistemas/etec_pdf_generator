@@ -15,22 +15,5 @@ COPY . .
 # Build the application
 RUN npm run build
 
-# Production stage
-FROM node:23-alpine
-
-WORKDIR /app
-
-# Copy package files
-COPY package*.json ./
-
-# Install production dependencies only
-RUN npm ci --production
-
-# Copy built application from builder stage
-COPY --from=builder /app/build ./build
-
-# Expose the port your app runs on
-EXPOSE 3000
-
 # Start the application
 CMD ["npm", "start"]
