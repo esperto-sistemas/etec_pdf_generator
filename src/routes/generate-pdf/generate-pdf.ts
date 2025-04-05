@@ -20,9 +20,6 @@ export function generatePDF(req: FastifyRequest<{ Body: GeneratePDFBody }>, repl
 
     const { tipoRelatorio } = req.body
 
-    reply.header('Content-Type', 'application/pdf')
-    reply.header('Content-Disposition', 'attachment; filename="report.pdf"')
-
     switch (tipoRelatorio) {
       case 'PREVENTIVA':
         maintenanceReportPdF(reply, req.body, 'RELATÓRIO DE MANUTENÇÃO PREVENTIVA')
