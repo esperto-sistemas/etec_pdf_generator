@@ -1,4 +1,8 @@
-import { Static, Type } from '@sinclair/typebox'
+import { Static, TSchema, Type } from '@sinclair/typebox'
+
+function Optional<T extends TSchema>(schema: T) {
+  return Type.Optional(Type.Union([schema, Type.Null()]));
+}
 
 const ClienteSchema = Type.Object({
   nome: Type.String(),
@@ -77,8 +81,8 @@ export const GeneratePDFSchema = Type.Object({
   ]),
 
   data: Type.String(),
-  numero: Type.Optional(Type.String()),
-  dataProximaVisita: Type.Optional(Type.String()),
+  numero: Optional(Type.String()),
+  dataProximaVisita: Optional(Type.String()),
 
   cliente: ClienteSchema,
   responsavel: ResponsavelSchema,
@@ -86,16 +90,16 @@ export const GeneratePDFSchema = Type.Object({
   responsavelSetor: Type.String(),
 
   modelo: ModeloSchema,
-  quantidadeMarca: Type.Optional(Type.Number()),
-  quantidadeModelo: Type.Optional(Type.Number()),
-  quantidadeEstagio: Type.Optional(Type.Number()),
+  quantidadeMarca: Optional(Type.Number()),
+  quantidadeModelo: Optional(Type.Number()),
+  quantidadeEstagio: Optional(Type.Number()),
 
   garantia: Type.Union([Type.Literal('COM_GARANTIA'), Type.Literal('SEM_GARANTIA')]),
-  estagio: Type.Optional(EstagioSchema),
-  tipoQueimador: Type.Optional(TipoQueimadorSchema),
-  aplicacao: Type.Optional(AplicacaoSchema),
-  tipoIntervencao: Type.Optional(TipoInvervencaoSchema),
-  equipamentoQuantidade: Type.Optional(Type.Number()),
+  estagio: Optional(EstagioSchema),
+  tipoQueimador: Optional(TipoQueimadorSchema),
+  aplicacao: Optional(AplicacaoSchema),
+  tipoIntervencao: Optional(TipoInvervencaoSchema),
+  equipamentoQuantidade: Optional(Type.Number()),
 
   descricaoAtividades: Type.String(),
   imagens: Type.Array(ImagemSchema),
@@ -106,7 +110,7 @@ export const GeneratePDFSchema = Type.Object({
   quantidadeRefeicoes: Type.Number(),
   quantidadePedagios: Type.Number(),
 
-  observacoes: Type.Optional(Type.String()),
+  observacoes: Optional(Type.String()),
 })
 
 export type GeneratePDFBody = Static<typeof GeneratePDFSchema>

@@ -85,15 +85,23 @@ export async function routes(app: FastifyInstance) {
             },
             estagio: {
               type: 'string',
-              enum: ['I_ESTAGIO', 'II_ESTAGIO', 'MODULANTE'],
+              enum: ['I_ESTAGIO', 'II_ESTAGIO', 'MODULANTE', null],
+              nullable: true,
             },
             tipoQueimador: {
               type: 'string',
-              enum: ['GAS_GLP', 'GAS_NATURAL', 'DIESEL'],
+              enum: ['GAS_GLP', 'GAS_NATURAL', 'DIESEL', null],
+              nullable: true,
             },
             aplicacao: {
               type: 'string',
-              enum: ['ESTUFA_DE_CURA_PO', 'ESTUFA_DE_CURA_LIQUIDA', 'BANHO', 'SECAGEM', 'OUTROS'],
+              enum: ['ESTUFA_DE_CURA_PO', 'ESTUFA_DE_CURA_LIQUIDA', 'BANHO', 'SECAGEM', 'OUTROS', null],
+              nullable: true,
+            },
+            tipoIntervencao: {
+              type: 'string',
+              enum: ['PROGRAMADA', 'CHAMADA_EXTRA', 'CONTRATO', 'OFICINA', null],
+              nullable: true,
             },
             equipamentoQuantidade: { type: 'number' },
 
