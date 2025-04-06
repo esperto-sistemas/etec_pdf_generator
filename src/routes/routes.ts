@@ -81,7 +81,8 @@ export async function routes(app: FastifyInstance) {
             quantidadeEstagio: { type: 'number' },
             garantia: {
               type: 'string',
-              enum: ['COM_GARANTIA', 'SEM_GARANTIA'],
+              enum: ['COM_GARANTIA', 'SEM_GARANTIA', null],
+              nullable: true,
             },
             estagio: {
               type: 'string',

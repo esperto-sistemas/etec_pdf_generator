@@ -72,6 +72,11 @@ const AplicacaoSchema = Type.Union([
   Type.Literal('OUTROS'),
 ])
 
+const GarantiaSchema = Type.Union([
+  Type.Literal('COM_GARANTIA'), 
+  Type.Literal('SEM_GARANTIA')
+])
+
 export const GeneratePDFSchema = Type.Object({
   tipoRelatorio: Type.Union([
     Type.Literal('MANUTENCAO'),
@@ -94,7 +99,7 @@ export const GeneratePDFSchema = Type.Object({
   quantidadeModelo: Optional(Type.Number()),
   quantidadeEstagio: Optional(Type.Number()),
 
-  garantia: Type.Union([Type.Literal('COM_GARANTIA'), Type.Literal('SEM_GARANTIA')]),
+  garantia: Optional(GarantiaSchema),
   estagio: Optional(EstagioSchema),
   tipoQueimador: Optional(TipoQueimadorSchema),
   aplicacao: Optional(AplicacaoSchema),
