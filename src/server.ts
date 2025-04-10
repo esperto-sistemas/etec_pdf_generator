@@ -1,4 +1,10 @@
+import 'dotenv/config'
+
 import { buildServer } from './app'
+import { initSentry } from './config/sentry'
+
+// Initialize Sentry
+initSentry()
 
 const start = async () => {
   const server = await buildServer()
