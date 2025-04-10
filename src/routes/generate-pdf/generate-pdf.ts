@@ -1,12 +1,13 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { Value } from '@sinclair/typebox/value'
+import { captureException } from "@sentry/node";
 
 import { GeneratePDFBody, GeneratePDFSchema } from 'types/PdfBody'
 
 import { visitReportPdf } from './pdfs/visit-report-pdf'
 import { maintenanceReportPdF } from './pdfs/maintenance-report-pdf'
 
-export function generatePDF(req: FastifyRequest<{ Body: GeneratePDFBody }>, reply: FastifyReply) {
+export async function generatePDF(req: FastifyRequest<{ Body: GeneratePDFBody }>, reply: FastifyReply) {
   try {
     const validationResult = Value.Check(GeneratePDFSchema, req.body)
 
@@ -22,16 +23,16 @@ export function generatePDF(req: FastifyRequest<{ Body: GeneratePDFBody }>, repl
 
     switch (tipoRelatorio) {
       case 'PREVENTIVA':
-        maintenanceReportPdF(reply, req.body, 'RELATÓRIO DE MANUTENÇÃO PREVENTIVA')
+        await maintenanceReportPdF(reply, req.body, 'RELATÓRIO DE MANUTENÇÃO PREVENTIVA')
         break
       case 'CORRETIVA':
-        maintenanceReportPdF(reply, req.body, 'RELATÓRIO DE MANUTENÇÃO CORRETIVA')
+        await maintenanceReportPdF(reply, req.body, 'RELATÓRIO DE MANUTENÇÃO CORRETIVA')
         break
       case 'MANUTENCAO':
-        maintenanceReportPdF(reply, req.body, 'RELATÓRIO DE MANUTENÇÃO')
+        await maintenanceReportPdF(reply, req.body, 'RELATÓRIO DE MANUTENÇÃO')
         break
       case 'VISITA':
-        visitReportPdf(reply, req.body)
+        await visitReportPdf(reply, req.body)
         break
       default:
         return reply.status(400).send({
@@ -40,7 +41,8 @@ export function generatePDF(req: FastifyRequest<{ Body: GeneratePDFBody }>, repl
           message: 'Tipo de relatório não suportado.',
         })
     }
-  } catch {
+  } catch (err) {
+    captureException(err)
     reply.status(500).send({
       statusCode: 500,
       error: 'Erro interno do servidor',
