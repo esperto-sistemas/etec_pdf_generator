@@ -13,6 +13,9 @@ RUN npm ci
 COPY . .
 
 # Build the application
+ARG SENTRY_DSN
+ENV SENTRY_DSN=$SENTRY_DSN
+
 RUN npm run build
 
 # Start the application

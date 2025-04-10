@@ -17,7 +17,9 @@ jobs:
         docker login https://docker.pkg.github.com -u ${{ github.actor }} -p ${{ secrets.PERSONAL_ACCESS_TOKEN }}
     - name: docker build
       run: |
-        docker build . -t docker.pkg.github.com/${{github.repository}}/${{ github.event.repository.name }}-image:latest
+        docker build . \
+        --build-arg SENTRY_DSN=${{ secrets.SENTRY_DSN }} \
+        -t docker.pkg.github.com/${{github.repository}}/${{ github.event.repository.name }}-image:latest
         
     - name: docker push
       run: |
