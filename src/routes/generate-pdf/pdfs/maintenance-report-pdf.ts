@@ -22,8 +22,6 @@ export async function maintenanceReportPdF(
   const doc = new PDFKit({ size: 'A4', margin })
   const currentY = doc.y
 
-  // Pipe the PDF document to the response
-  reply.raw.setHeader('Content-Type', 'application/octet-stream')
   doc.pipe(reply.raw)
 
   doc.registerFont('Inter-Bold', 'src/assets/fonts/Inter-Bold.ttf')

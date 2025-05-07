@@ -24,12 +24,12 @@ export async function renderSignatures(
 
   // Draw the client and responsible signatures
   const clientSignature = await fetchImage(data.cliente.assinatura)
-  doc.image(clientSignature, 100, doc.y + 5, {
+  doc.image(clientSignature, 100, doc.y - 5, {
     width: 100,
     height: 50,
   })
   const responsibleSignature = await fetchImage(data.responsavel.assinatura)
-  doc.image(responsibleSignature, 100 + halfWidth + paddingBetweenColumns, doc.y + 5, {
+  doc.image(responsibleSignature, 100 + halfWidth + paddingBetweenColumns, doc.y - 5, {
     width: 100,
     height: 50,
   })

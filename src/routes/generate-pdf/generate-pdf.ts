@@ -1,13 +1,16 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { Value } from '@sinclair/typebox/value'
-import { captureException } from "@sentry/node";
+import { captureException } from '@sentry/node'
 
 import { GeneratePDFBody, GeneratePDFSchema } from 'types/PdfBody'
 
 import { visitReportPdf } from './pdfs/visit-report-pdf'
 import { maintenanceReportPdF } from './pdfs/maintenance-report-pdf'
 
-export async function generatePDF(req: FastifyRequest<{ Body: GeneratePDFBody }>, reply: FastifyReply) {
+export async function generatePDF(
+  req: FastifyRequest<{ Body: GeneratePDFBody }>,
+  reply: FastifyReply,
+) {
   try {
     const validationResult = Value.Check(GeneratePDFSchema, req.body)
 
@@ -20,6 +23,10 @@ export async function generatePDF(req: FastifyRequest<{ Body: GeneratePDFBody }>
     }
 
     const { tipoRelatorio } = req.body
+
+    reply
+      .header('Content-Type', 'application/pdf')
+      .header('Content-Disposition', 'attachment; filename=relatorio.pdf')
 
     switch (tipoRelatorio) {
       case 'PREVENTIVA':
@@ -41,6 +48,8 @@ export async function generatePDF(req: FastifyRequest<{ Body: GeneratePDFBody }>
           message: 'Tipo de relatório não suportado.',
         })
     }
+
+    return
   } catch (err) {
     captureException(err)
     reply.status(500).send({
