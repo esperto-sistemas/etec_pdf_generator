@@ -12,9 +12,19 @@ export async function renderSignatures(
   data: RenderSignaturesData,
 ) {
   const halfWidth = (doc.page.width - marginHorizontal * 2 - paddingBetweenColumns) / 2
-  currentY = doc.y // Capture the current y position
+  const lineHeight = 10
+  const gap = 10
+  const requiredHeight = spaceSignature + lineHeight + gap
+
+  if (doc.y + requiredHeight > doc.page.height - 50) {
+    doc.addPage()
+    doc.y = 50
+  }
+
+  currentY = doc.y // Capture the current Y position after adding a new page
+
   drawHeader(doc, 'ASSINATURA DO CLIENTE', marginHorizontal, halfWidth)
-  doc.y = currentY // Restore the y position
+  doc.y = currentY
   drawHeader(
     doc,
     'ASSINATURA DO TÉCNICO',
@@ -24,19 +34,24 @@ export async function renderSignatures(
 
   // Draw the client and responsible signatures
   const clientSignature = await fetchImage(data.cliente.assinatura)
-  doc.image(clientSignature, 100, doc.y - 5, {
-    width: 100,
-    height: 50,
-  })
   const responsibleSignature = await fetchImage(data.responsavel.assinatura)
-  doc.image(responsibleSignature, 100 + halfWidth + paddingBetweenColumns, doc.y - 5, {
+
+  const signatureX = (halfWidth - 100) / 2
+
+  doc.image(clientSignature, marginHorizontal + signatureX, doc.y + 10, {
     width: 100,
-    height: 50,
+    height: spaceSignature,
   })
 
-  // Draw the signature lines
-  // Draw lines below the titles
-  const lineY = doc.y + spaceSignature
+  doc.image(
+    responsibleSignature,
+    marginHorizontal + halfWidth + paddingBetweenColumns + signatureX,
+    doc.y + 10,
+    { width: 100, height: spaceSignature },
+  )
+
+  // Draw the lines for the signatures
+  const lineY = doc.y + spaceSignature + gap
   doc
     .lineWidth(0.5)
     .moveTo(marginHorizontal, lineY)
@@ -51,8 +66,14 @@ export async function renderSignatures(
 
   // Draw the names below the signatures
   doc.fontSize(8)
-  doc.text(data.cliente.assinaturaNomeLegivel, marginHorizontal, lineY + 10, {
+  doc.text(data.cliente.assinaturaNomeLegivel, marginHorizontal, lineY + lineHeight, {
     width: halfWidth,
     align: 'center',
   })
+  doc.text(
+    data.responsavel.nome,
+    marginHorizontal + halfWidth + paddingBetweenColumns,
+    lineY + lineHeight,
+    { width: halfWidth, align: 'center' },
+  )
 }

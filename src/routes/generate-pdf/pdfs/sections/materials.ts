@@ -10,6 +10,11 @@ export function renderMaterials(
   currentY: number,
   data: RenderMaterialsData,
 ) {
+  const currentPageCount = doc.bufferedPageRange().start
+  const isFirstPage = currentPageCount === 0
+
+  if (isFirstPage) doc.addPage()
+
   drawHeader(doc, 'MATERIAIS UTILIZADOS')
 
   // Description and quantity
