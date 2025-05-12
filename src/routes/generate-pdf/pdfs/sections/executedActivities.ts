@@ -20,18 +20,18 @@ export async function renderExecutedActivities(
 
   const imageWidth = (doc.page.width - marginHorizontal * 2 - paddingBetweenColumns) / 2
   const imageHeight = 150
+  const pageHeight = doc.page.height
+  const marginVertical = 50 // Margem vertical para evitar sobreposição com o rodapé ou cabeçalho
 
   if (hasImages) {
     const imagesToRender = body.imagens
     const imagePromises = imagesToRender.map((image) => fetchImage(image.imagem))
     const images = await Promise.all(imagePromises)
-    const pageHeight = doc.page.height
-    const marginVertical = 50 // Margem vertical para evitar sobreposição com o rodapé ou cabeçalho
 
     images.forEach((image, index) => {
       const x =
         index % 2 === 0 ? marginHorizontal : marginHorizontal + imageWidth + paddingBetweenColumns
-      const y = doc.y + Math.floor(index / 2) * (imageHeight + paddingBetweenColumns)
+      const y = doc.y
 
       // Verifica se há espaço suficiente na página atual
       if (y + imageHeight + marginVertical > pageHeight) {
@@ -39,6 +39,7 @@ export async function renderExecutedActivities(
         doc.y = marginVertical // Reinicia a posição vertical na nova página
       }
 
+      // Renderiza a imagem
       doc.image(image, x, doc.y, {
         width: imageWidth,
         height: imageHeight,
@@ -51,6 +52,12 @@ export async function renderExecutedActivities(
       }
     })
 
-    doc.moveDown(2)
+    // Garante que a posição vertical seja ajustada após a última linha de imagens
+    const remainingImages = images.length % 2 === 0 ? 0 : 1
+    if (remainingImages > 0) {
+      doc.y += imageHeight + paddingBetweenColumns
+    }
+
+    doc.moveDown(2) // Adiciona espaço após as imagens
   }
 }
