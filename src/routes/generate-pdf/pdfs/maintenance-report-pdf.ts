@@ -61,9 +61,6 @@ export async function maintenanceReportPdF(
     imagens: body.imagens,
   })
 
-  //Start new page
-  doc.addPage()
-
   //Materials used
   if (body.materiais.length > 0) {
     renderMaterials(doc, currentY, {
