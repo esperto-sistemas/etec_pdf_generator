@@ -10,6 +10,10 @@ export function renderMaterials(
   currentY: number,
   data: RenderMaterialsData,
 ) {
+  //@ts-expect-error - PDFKit does not have a type definition for _pageBuffer
+  const isFirstPage = doc._pageBuffer && doc._pageBuffer.length === 1
+  if (isFirstPage) doc.addPage()
+
   drawHeader(doc, 'MATERIAIS UTILIZADOS')
 
   // Description and quantity
