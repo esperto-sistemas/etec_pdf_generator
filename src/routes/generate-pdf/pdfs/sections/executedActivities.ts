@@ -7,11 +7,8 @@ type RenderExecutedActivitiesData = Pick<GeneratePDFBody, 'descricaoAtividades' 
 
 export async function renderExecutedActivities(
   doc: PDFKit.PDFDocument,
-  visit = false,
   body: RenderExecutedActivitiesData,
 ) {
-  if (visit) doc.addPage()
-
   const hasImages = body.imagens && body.imagens.length > 0
 
   drawHeader(doc, 'ATIVIDADES EXECUTADAS')
