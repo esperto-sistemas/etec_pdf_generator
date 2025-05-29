@@ -1,7 +1,7 @@
 import { Static, TSchema, Type } from '@sinclair/typebox'
 
 function Optional<T extends TSchema>(schema: T) {
-  return Type.Optional(Type.Union([schema, Type.Null()]));
+  return Type.Optional(Type.Union([schema, Type.Null()]))
 }
 
 const ClienteSchema = Type.Object({
@@ -10,6 +10,7 @@ const ClienteSchema = Type.Object({
   telefone: Type.String(),
   assinatura: Type.String(),
   assinaturaNomeLegivel: Type.String(),
+  assinaturaData: Type.String(),
 })
 
 const ResponsavelSchema = Type.Object({
@@ -25,6 +26,7 @@ const ModeloSchema = Type.Object({
 
 const MaterialSchema = Type.Object({
   quantidade: Type.Number(),
+  localizacao: Optional(Type.String()),
   material: Type.Object({
     nome: Type.String(),
   }),
@@ -72,10 +74,7 @@ const AplicacaoSchema = Type.Union([
   Type.Literal('OUTROS'),
 ])
 
-const GarantiaSchema = Type.Union([
-  Type.Literal('COM_GARANTIA'), 
-  Type.Literal('SEM_GARANTIA')
-])
+const GarantiaSchema = Type.Union([Type.Literal('COM_GARANTIA'), Type.Literal('SEM_GARANTIA')])
 
 export const GeneratePDFSchema = Type.Object({
   tipoRelatorio: Type.Union([
