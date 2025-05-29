@@ -58,7 +58,7 @@ export async function visitReportPdf(reply: FastifyReply, body: GeneratePDFBody)
   })
 
   //Executed activities
-  await renderExecutedActivities(doc, true, {
+  await renderExecutedActivities(doc, {
     descricaoAtividades: body.descricaoAtividades,
     imagens: body.imagens,
   })

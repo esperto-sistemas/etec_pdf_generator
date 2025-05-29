@@ -56,13 +56,10 @@ export async function maintenanceReportPdF(
   })
 
   //Executed activities
-  await renderExecutedActivities(doc, false, {
+  await renderExecutedActivities(doc, {
     descricaoAtividades: body.descricaoAtividades,
     imagens: body.imagens,
   })
-
-  //Start new page
-  doc.addPage()
 
   //Materials used
   if (body.materiais.length > 0) {
