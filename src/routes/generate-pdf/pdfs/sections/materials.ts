@@ -12,21 +12,31 @@ export function renderMaterials(
 ) {
   drawHeader(doc, 'MATERIAIS UTILIZADOS')
 
-  // Description and quantity
+  const hasLocation = data.materiais.some((m) => (m.localizacao?.trim()?.length || 0) > 0)
+
+  // Description, quantity and location
   currentY = doc.y
-  const columnWidth = (doc.page.width - marginHorizontal * 2 - paddingBetweenColumns) / 2
+  const columnCount = hasLocation ? 3 : 2
+  const columnWidth =
+    (doc.page.width - marginHorizontal * 2 - paddingBetweenColumns * (columnCount - 1)) /
+    columnCount
+
   drawSubtitle(doc, 'Descrição', { width: columnWidth, align: 'left' }, headerTextColor)
 
   doc.x = marginHorizontal + columnWidth + paddingBetweenColumns
   doc.y = currentY
   drawSubtitle(doc, 'Quantidade', { width: columnWidth, align: 'left' }, headerTextColor)
 
+  if (hasLocation) {
+    doc.x = marginHorizontal + (columnWidth + paddingBetweenColumns) * 2
+    doc.y = currentY
+    drawSubtitle(doc, 'Localização', { width: columnWidth, align: 'left' }, headerTextColor)
+  }
+
   doc.moveDown(0.5)
 
   data.materiais.forEach((material) => {
-    // Salvar posição Y inicial
     currentY = doc.y
-    // Renderizar a descrição primeiro
     doc.x = marginHorizontal
 
     drawText(doc, material.material.nome, {
@@ -36,15 +46,18 @@ export function renderMaterials(
       lineBreak: true,
     })
 
-    // Salvar a posição do cursor após desenhar o texto
     const afterTextY = doc.y
 
-    // Voltar para a posição inicial para desenhar a quantidade
     doc.y = currentY
     doc.x = marginHorizontal + columnWidth + paddingBetweenColumns
     drawText(doc, material.quantidade.toString(), { width: columnWidth, align: 'left' })
 
-    // Definir a posição Y para a maior entre a posição após o texto da descrição e após a quantidade
+    if (hasLocation) {
+      doc.y = currentY
+      doc.x = marginHorizontal + (columnWidth + paddingBetweenColumns) * 2
+      drawText(doc, material.localizacao || '', { width: columnWidth, align: 'left' })
+    }
+
     doc.y = Math.max(afterTextY, doc.y)
     doc.moveDown(0.5)
   })

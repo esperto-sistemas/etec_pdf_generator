@@ -52,7 +52,6 @@ export async function renderExecutedActivities(
     // Informativo caso existam mais imagens
     if (body.imagens.length > maxImages) {
       const movement = (imagesToRender.length / 2) * imageHeight + (paddingBetweenColumns + 10)
-      console.log(movement)
       doc.y = doc.y + movement
       doc
         .font('Inter-Medium')
