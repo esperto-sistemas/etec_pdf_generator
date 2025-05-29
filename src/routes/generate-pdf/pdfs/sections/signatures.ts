@@ -3,6 +3,7 @@ import type { GeneratePDFBody } from 'types/PdfBody'
 import { marginHorizontal, paddingBetweenColumns, spaceSignature, textColor } from '../constants'
 import { drawHeader } from '../helpers'
 import { fetchImage } from 'utils/fetchImage'
+import dayjs from 'dayjs'
 
 type RenderSignaturesData = Pick<GeneratePDFBody, 'cliente' | 'responsavel'>
 
@@ -55,4 +56,14 @@ export async function renderSignatures(
     width: halfWidth,
     align: 'center',
   })
+
+  doc.text(
+    dayjs(data.cliente.assinaturaData).format('DD/MM/YYYY HH:mm'),
+    marginHorizontal,
+    lineY + 20,
+    {
+      width: halfWidth,
+      align: 'center',
+    },
+  )
 }
