@@ -19,6 +19,7 @@ export async function generatePDF(
         statusCode: 400,
         error: 'Requisição inválida',
         message: 'O corpo da requisição não atende ao formato esperado.',
+        fields: String(Value.Errors(GeneratePDFSchema, req.body)),
       })
     }
 
