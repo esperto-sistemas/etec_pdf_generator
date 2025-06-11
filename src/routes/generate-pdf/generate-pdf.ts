@@ -15,11 +15,17 @@ export async function generatePDF(
     const validationResult = Value.Check(GeneratePDFSchema, req.body)
 
     if (!validationResult) {
+      const errors = Array.from(Value.Errors(GeneratePDFSchema, req.body))
+
       return reply.status(400).send({
         statusCode: 400,
         error: 'Requisição inválida',
         message: 'O corpo da requisição não atende ao formato esperado.',
-        fields: JSON.stringify([...Value.Errors(GeneratePDFSchema, req.body)]),
+        fields: errors.map(({ path, message, value }) => ({
+          path,
+          message,
+          value: value ?? '',
+        })),
       })
     }
 
